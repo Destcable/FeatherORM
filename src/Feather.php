@@ -15,6 +15,16 @@ class Feather
         $this->models = $models;
     }
 
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    public function __get($name)
+    {
+        return $this->$name;
+    }
+
     public function database(PDO $database)
     {
         return $this->db = $database;
@@ -22,6 +32,14 @@ class Feather
 
     public function generateModels()
     {
+        spl_autoload_register(function ($className) {
+            $baseDir = __DIR__ . '/src/';
+            $classFile = $baseDir . str_replace('\\', '/', $className) . '.php';
+            if (file_exists($classFile)) {
+                require_once $classFile;
+            }
+        });
+
         for ($i=0; $i < count($this->models); $i++) { 
             
             $phpModel = $this->convertFeather(
@@ -29,7 +47,11 @@ class Feather
             );
 
             $this->generateModel($phpModel);
-        }
+            
+            $class = "FeatherOrm\\Models\\{$phpModel['modelname']}";
+            
+            $this->__set(strtolower($phpModel['modelname']), new $class($this->db) );
+        } 
     }
 
     private function generateModel(array $data)
