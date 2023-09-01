@@ -66,4 +66,12 @@ abstract class Model
     {
         
     }
+
+    public function getFields()
+    {
+        $fields = get_object_vars($this);
+        unset($fields['db']);
+        
+        return $fields;
+    }
 }

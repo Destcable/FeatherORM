@@ -20,13 +20,18 @@ class Feather
         return $this->db = $database;
     }
 
-    public function test()
+    public function generateModels()
     {
-        $phpModel = $this->convertFeather(
-            file_get_contents($this->models[0])
-        );
+        for ($i=0; $i < count($this->models); $i++) { 
+            
+            $phpModel = $this->convertFeather(
+                file_get_contents($this->models[$i])
+            );
 
-        $this->generateModel($phpModel);
+            $this->$phpModel = 'mODEL';
+
+            $this->generateModel($phpModel);
+        }
     }
 
     private function generateModel(array $data)

@@ -21,11 +21,7 @@ class TemplateModel
         $buffer = "Class {$modelname} extends Model {";
         fwrite($file, $buffer."\r\n");
 
-        echo '<pre>';
-
         foreach ($data['data'] as $value) {
-            print_r($value['name']);
-
             $buffer = "public $" . $value['name'] . ";";
             fwrite($file, $buffer."\r\n");
         }
