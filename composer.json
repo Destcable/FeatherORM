@@ -1,0 +1,15 @@
+{
+    "name": "komandaf5/feather-orm",
+    "autoload": {
+        "psr-4": {
+            "FeatherOrm\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Destcable",
+            "email": "artmobpavlov21@gmail.com"
+        }
+    ],
+    "require": {}
+}
