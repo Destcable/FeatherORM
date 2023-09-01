@@ -8,11 +8,12 @@ use FeatherOrm\TemplateModel;
 class Feather
 {
     private array $models = [];
-    private PDO $db;
+    private Database $db;
 
-    public function __construct(array $models)
+    public function __construct(array $models, Database $db)
     {
         $this->models = $models;
+        $this->db = $db;
     }
 
     public function __set($name, $value)
@@ -25,11 +26,6 @@ class Feather
         return $this->$name;
     }
 
-    public function database(PDO $database)
-    {
-        return $this->db = $database;
-    }
-
     public function generateModels()
     {
         spl_autoload_register(function ($className) {
@@ -40,8 +36,10 @@ class Feather
             }
         });
 
+        $database = $this->connectDatabase($this->db);
+        
         for ($i=0; $i < count($this->models); $i++) { 
-            
+
             $phpModel = $this->convertFeather(
                 file_get_contents($this->models[$i])
             );
@@ -50,8 +48,14 @@ class Feather
             
             $class = "FeatherOrm\\Models\\{$phpModel['modelname']}";
             
-            $this->__set(strtolower($phpModel['modelname']), new $class($this->db) );
+            $this->__set(strtolower($phpModel['modelname']), new $class($database) );
         } 
+    }
+
+
+    private function connectDatabase(Database $database): PDO
+    { 
+        return new PDO("mysql:host={$this->db->host};dbname={$this->db->dbname}", $this->db->username, $this->db->password);
     }
 
     private function generateModel(array $data)
