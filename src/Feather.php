@@ -3,6 +3,7 @@
 namespace FeatherOrm;
 
 use PDO;
+use FeatherOrm\TemplateModel;
 
 class Feather
 {
@@ -15,19 +16,26 @@ class Feather
     }
 
     public function database(PDO $database)
-    { 
+    {
         return $this->db = $database;
     }
 
     public function test()
     {
-        return $this->convertFeather(
+        $phpModel = $this->convertFeather(
             file_get_contents($this->models[0])
         );
+
+        $this->generateModel($phpModel);
     }
 
+    private function generateModel(array $data)
+    {
+        $templateModel = new TemplateModel();
+        $templateModel->generate($data);
+    }
 
-    function convertFeather($file)
+    private function convertFeather($file)
     {
         $modelname = null;
 
@@ -62,5 +70,4 @@ class Feather
             'data' => $field_data,
         ];
     }
-
 }
