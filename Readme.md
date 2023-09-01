@@ -23,8 +23,6 @@ model User {
 ```php 
 use FeatherOrm\Database;
 use FeatherOrm\Feather;
-use FeatherOrm\Models\Post;
-use FeatherOrm\Models\User;
 
 $database = new Database(
     host: 'host',
@@ -38,8 +36,9 @@ $feather = new Feather([
     'schemes/User.feather'
 ]);
 
+$feather->database($database);
+
 $feather->generateModels();
 
-$post = new Post($database);
-$user = new User($database);
+$feather->user->find(2);
 ```
