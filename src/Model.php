@@ -16,7 +16,6 @@ abstract class Model
 
     public function find(int $id)
     {
-        var_dump($this->db);
         $query = "SELECT * FROM $this->table WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(":id", $id);
