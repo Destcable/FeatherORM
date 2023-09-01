@@ -1,6 +1,6 @@
 # FeatherOrm
 
-##### Model (Post.f)
+##### Model (Post.feather)
 ```
 model Post {
     id        INT
