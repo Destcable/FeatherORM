@@ -21,6 +21,9 @@ class TemplateModel
         $buffer = "Class {$modelname} extends Model {";
         fwrite($file, $buffer."\r\n");
 
+        $buffer = "protected string $" . "table = " . '"' . strtolower($data['modelname']) . '"' .  ";";
+        fwrite($file, $buffer."\r\n");
+
         foreach ($data['data'] as $value) {
             $buffer = "public $" . $value['name'] . ";";
             fwrite($file, $buffer."\r\n");
