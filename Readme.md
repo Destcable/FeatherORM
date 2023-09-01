@@ -1,6 +1,6 @@
 # FeatherOrm
 
-##### Model (Post.feather)
+##### Model Feather files
 ```
 model Post {
     id        INT
@@ -12,12 +12,19 @@ model Post {
     author    VARCHAR
     authorId  INT
 }
+
+model User { 
+    id   INT
+    name VARCHAR
+}
 ```
 
 #### Example use
 ```php 
 use FeatherOrm\Database;
 use FeatherOrm\Feather;
+use FeatherOrm\Models\Post;
+use FeatherOrm\Models\User;
 
 $database = new Database(
     host: 'host',
@@ -27,8 +34,12 @@ $database = new Database(
 );
 
 $feather = new Feather([
-    'Post.feather'
+    'schemes/Post.feather',
+    'schemes/User.feather'
 ]);
 
-$feather->database($database);
+$feather->generateModels();
+
+$post = new Post($database);
+$user = new User($database);
 ```

@@ -28,8 +28,6 @@ class Feather
                 file_get_contents($this->models[$i])
             );
 
-            $this->$phpModel = 'mODEL';
-
             $this->generateModel($phpModel);
         }
     }
