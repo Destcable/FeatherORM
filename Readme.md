@@ -34,9 +34,7 @@ $database = new Database(
 $feather = new Feather([
     'schemes/Post.feather',
     'schemes/User.feather'
-]);
-
-$feather->database($database);
+], $database);
 
 $feather->generateModels();
 
