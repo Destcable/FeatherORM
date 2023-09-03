@@ -62,16 +62,16 @@ abstract class Model
         return $stmt->execute();
     }
 
-    public function createTable(array $data)
+    public function createTable(array $data = null)
     {
-        
-    }
+        // echo '<pre>';
+        // $tablename = $this->getFields()['table'];
+        // $fields = $this->getFields();
+        // unset($fields['table']);
 
-    public function getFields()
-    {
-        $fields = get_object_vars($this);
-        unset($fields['db']);
-        
-        return $fields;
+        // print_r($fields);
+        // $query = "CREATE TABLE $tablename ( id int )";
+        // $stmt = $this->db->prepare($query);
+        // return $stmt->execute();
     }
 }

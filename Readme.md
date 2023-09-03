@@ -39,4 +39,6 @@ $feather = new Feather([
 $feather->generateModels();
 
 $feather->user->find(2);
+
+$feather->address->createTable();
 ```

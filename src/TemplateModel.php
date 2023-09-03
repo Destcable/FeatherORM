@@ -24,10 +24,16 @@ class TemplateModel
         $buffer = "protected string $" . "table = " . '"' . strtolower($data['modelname']) . '"' .  ";";
         fwrite($file, $buffer."\r\n");
 
+        $buffer = "public array $" . "fields = [";
+        fwrite($file, $buffer."\r\n");
+
         foreach ($data['data'] as $value) {
-            $buffer = "public $" . $value['name'] . ";";
+            $buffer = "'". $value['name'] . "'" . " => " . "'" . $value['type'] . "'" . ",";
             fwrite($file, $buffer."\r\n");
         }
+
+        $buffer = "];";
+        fwrite($file, $buffer."\r\n");
 
         $buffer = "}";
         fwrite($file, $buffer."\r\n");
