@@ -30,6 +30,7 @@ abstract class Model
         $values = ":" . implode(", :", array_keys($data));
         $query = "INSERT INTO $this->table ($columns) VALUES ($values)";
         $stmt = $this->db->prepare($query);
+
         foreach($data as $key => $value) { 
             $stmt->bindValue(":$key", $value);
         }
