@@ -11,7 +11,7 @@ abstract class Model
 
     public function __construct(PDO $db)
     {
-        $this->db = $db;    
+        $this->db = $db;
     }
 
     public function find(int $id)
@@ -20,22 +20,19 @@ abstract class Model
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(":id", $id);
         $stmt->execute();
-        
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create(array $data)
     {
-        $columns = implode(", ", array_keys($data));
-        $values = ":" . implode(", :", array_keys($data));
-        $query = "INSERT INTO $this->table ($columns) VALUES ($values)";
-        $stmt = $this->db->prepare($query);
-
-        foreach($data as $key => $value) { 
-            $stmt->bindValue(":$key", $value);
+        foreach ($data as $nestedData) {
+            if (is_array($nestedData)) {
+                $this->createQuery($nestedData);
+            } else {
+                $this->createQuery($data);
+            }
         }
-
-        return $stmt->execute();
     }
 
     public function update($id, array $data)
@@ -53,14 +50,28 @@ abstract class Model
         }
         return $stmt->execute();
     }
-    
+
     public function delete(int $id)
-    { 
+    {
         $query = "DELETE FROM $this->table WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(":id", $id);
-        
+
         return $stmt->execute();
+    }
+
+    private function createQuery(array $data)
+    {
+        $columns = implode(", ", array_keys($data));
+        $values = ":" . implode(", :", array_keys($data));
+        $query = "INSERT INTO $this->table ($columns) VALUES ($values)";
+        $stmt = $this->db->prepare($query);
+
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+
+        $stmt->execute();
     }
 
     public function createTable(array $data = null)
