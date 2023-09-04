@@ -24,7 +24,7 @@ abstract class Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create(array $data)
+    public function create(array $data, )
     {
         foreach ($data as $nestedData) {
             if (is_array($nestedData)) {
