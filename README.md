@@ -1,7 +1,7 @@
 # FeatherOrm
 
 ##### Model Feather files
-```json
+```
 model Post {
     id        INT
     createdAt DateTime
